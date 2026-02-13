@@ -1,0 +1,45 @@
+DROP DATABASE IF EXISTS StudyOrganiser;
+CREATE DATABASE StudyOrganiser;
+USE StudyOrganiser;
+
+CREATE TABLE `User` (
+	U_ID INT PRIMARY KEY AUTO_INCREMENT,
+	U_username VARCHAR(255) NOT NULL UNIQUE,
+	U_password VARCHAR(255) NOT NULL,
+	U_role VARCHAR(255) NOT NULL,
+	U_creation_date DATETIME NOT NULL
+);
+
+CREATE TABLE Subject (
+	S_ID INT PRIMARY KEY AUTO_INCREMENT,
+    S_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Teacher (
+    T_ID INT PRIMARY KEY AUTO_INCREMENT,
+    firstname VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Teacher_Subject (
+    T_ID INT NOT NULL,
+    S_ID INT NOT NULL,
+    PRIMARY KEY (T_ID, S_ID),
+    CONSTRAINT fk_teacher_subject_teacher FOREIGN KEY (T_ID) REFERENCES Teacher(T_ID),
+    CONSTRAINT fk_teacher_subject_subject FOREIGN KEY (S_ID) REFERENCES Subject(S_ID)
+);
+
+CREATE TABLE Homework (
+    H_ID INT PRIMARY KEY AUTO_INCREMENT,
+    U_ID INT NOT NULL,
+    S_ID INT NOT NULL,
+    T_ID INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    due_at DATETIME NOT NULL,
+    is_done BOOLEAN NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
+    CONSTRAINT fk_homework_user FOREIGN KEY (U_ID) REFERENCES `User`(U_ID),
+    CONSTRAINT fk_homework_subject FOREIGN KEY (S_ID) REFERENCES Subject(S_ID),
+    CONSTRAINT fk_homework_teacher FOREIGN KEY (T_ID) REFERENCES Teacher(T_ID)
+);
