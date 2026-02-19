@@ -17,6 +17,8 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public const ROLE_USER = 'user';
+    public const ROLE_ADMIN = 'admin';
 
 
     /**
@@ -62,6 +64,102 @@ class User extends \yii\db\ActiveRecord
     public function getHomeworks()
     {
         return $this->hasMany(Homework::class, ['U_ID' => 'U_ID']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        if (empty($this->U_creation_date)) {
+            $this->U_creation_date = date('Y-m-d H:i:s');
+        }
+
+        return parent::beforeValidate();
+    }
+
+    /**
+     * Hashes password only when a plain text value is provided.
+     *
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if (!$this->isPasswordHash($this->U_password)) {
+            $this->setPassword($this->U_password);
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @param string $password
+     * @return void
+     */
+    public function setPassword($password)
+    {
+        $this->U_password = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function validatePassword($password)
+    {
+        $hashInfo = password_get_info((string)$this->U_password);
+        if (!empty($hashInfo['algo'])) {
+            return Yii::$app->security->validatePassword($password, $this->U_password);
+        }
+
+        return hash_equals((string)$this->U_password, (string)$password);
+    }
+
+    /**
+     * @return string
+     */
+    public function normalizedRole()
+    {
+        return strtolower((string)$this->U_role);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->normalizedRole() === self::ROLE_ADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUserOrAdmin()
+    {
+        return in_array($this->normalizedRole(), [self::ROLE_USER, self::ROLE_ADMIN], true);
+    }
+
+    /**
+     * Backward-compatible helper used by existing tests/code.
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['U_username' => $username]);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    private function isPasswordHash($value)
+    {
+        $hashInfo = password_get_info((string)$value);
+
+        return !empty($hashInfo['algo']);
     }
 
     /**

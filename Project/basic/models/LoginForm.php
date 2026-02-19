@@ -8,16 +8,19 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property-read User|null $user
+ * @property-read AuthIdentity|null $identity
  *
  */
 class LoginForm extends Model
 {
+    public const LOGIN_AS_USER = AuthIdentity::TYPE_USER;
+    public const LOGIN_AS_TEACHER = AuthIdentity::TYPE_TEACHER;
+
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $loginAs = self::LOGIN_AS_USER;
 
-    private $_user = false;
+    private $_identity = false;
 
 
     /**
@@ -27,11 +30,23 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            [['username', 'password', 'loginAs'], 'required'],
+            ['username', 'trim'],
+            ['loginAs', 'in', 'range' => array_keys($this->getLoginAsOptions())],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            'password' => 'Password',
+            'loginAs' => 'Login as',
         ];
     }
 
@@ -45,9 +60,9 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $identity = $this->getIdentity();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$identity || !$identity->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -60,22 +75,33 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getIdentity(), 0);
         }
         return false;
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds identity by credentials.
      *
-     * @return User|null
+     * @return AuthIdentity|null
      */
-    public function getUser()
+    public function getIdentity()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        if ($this->_identity === false) {
+            $this->_identity = AuthIdentity::findByCredentials($this->username, $this->password, $this->loginAs);
         }
 
-        return $this->_user;
+        return $this->_identity;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getLoginAsOptions()
+    {
+        return [
+            self::LOGIN_AS_USER => 'User / Admin',
+            self::LOGIN_AS_TEACHER => 'Teacher',
+        ];
     }
 }
