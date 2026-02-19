@@ -11,13 +11,11 @@ use Yii;
  * @property string $S_name
  *
  * @property Homework[] $homeworks
- * @property TeacherSubject[] $teacherSubjects
- * @property Teacher[] $ts
+ * @property User_Subject[] $userSubjects
+ * @property User[] $users
  */
 class Subject extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -49,9 +47,7 @@ class Subject extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Homeworks]].
-     *
-     * @return \yii\db\ActiveQuery|HomeworkQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getHomeworks()
     {
@@ -59,32 +55,27 @@ class Subject extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[TeacherSubjects]].
-     *
-     * @return \yii\db\ActiveQuery|TeacherSubjectQuery
+     * @return \yii\db\ActiveQuery
      */
-    public function getTeacherSubjects()
+    public function getUserSubjects()
     {
-        return $this->hasMany(TeacherSubject::class, ['S_ID' => 'S_ID']);
+        return $this->hasMany(User_Subject::class, ['S_ID' => 'S_ID']);
     }
 
     /**
-     * Gets query for [[Ts]].
-     *
-     * @return \yii\db\ActiveQuery|TeacherQuery
+     * @return \yii\db\ActiveQuery
      */
-    public function getTs()
+    public function getUsers()
     {
-        return $this->hasMany(Teacher::class, ['T_ID' => 'T_ID'])->viaTable('Teacher_Subject', ['S_ID' => 'S_ID']);
+        return $this->hasMany(User::class, ['U_ID' => 'U_ID'])->viaTable('User_Subject', ['S_ID' => 'S_ID']);
     }
 
     /**
      * {@inheritdoc}
-     * @return UserQuery the active query used by this AR class.
+     * @return SubjectQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UserQuery(get_called_class());
+        return new SubjectQuery(get_called_class());
     }
-
 }

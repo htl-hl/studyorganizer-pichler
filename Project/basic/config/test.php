@@ -30,7 +30,8 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\AuthIdentity',
+            'enableAutoLogin' => false,
         ],
         'request' => [
             'cookieValidationKey' => 'test',

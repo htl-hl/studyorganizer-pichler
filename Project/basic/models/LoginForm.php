@@ -88,7 +88,7 @@ class LoginForm extends Model
     public function getIdentity()
     {
         if ($this->_identity === false) {
-            $this->_identity = AuthIdentity::findByCredentials($this->username, $this->password, $this->loginAs);
+            $this->_identity = AuthIdentity::findByCredentials($this->username, $this->loginAs);
         }
 
         return $this->_identity;

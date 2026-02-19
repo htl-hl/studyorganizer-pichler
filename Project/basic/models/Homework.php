@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "Homework".
@@ -10,7 +11,7 @@ use Yii;
  * @property int $H_ID
  * @property int $U_ID
  * @property int $S_ID
- * @property int $T_ID
+ * @property int $Teacher_U_ID
  * @property string $title
  * @property string $description
  * @property string $due_at
@@ -18,13 +19,29 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Subject $s
- * @property Teacher $t
- * @property User $u
+ * @property Subject $subject
+ * @property User $owner
+ * @property User $teacher
+ * @property User_Subject $teacherSubject
  */
 class Homework extends \yii\db\ActiveRecord
 {
-
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => static function () {
+                    return date('Y-m-d H:i:s');
+                },
+            ],
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -40,13 +57,14 @@ class Homework extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['U_ID', 'S_ID', 'T_ID', 'title', 'description', 'due_at', 'is_done', 'created_at', 'updated_at'], 'required'],
-            [['U_ID', 'S_ID', 'T_ID', 'is_done'], 'integer'],
+            [['U_ID', 'S_ID', 'Teacher_U_ID', 'title', 'description', 'due_at'], 'required'],
+            [['U_ID', 'S_ID', 'Teacher_U_ID', 'is_done'], 'integer'],
+            [['is_done'], 'default', 'value' => 0],
             [['due_at', 'created_at', 'updated_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
-            [['S_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['S_ID' => 'S_ID']],
-            [['T_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Teacher::class, 'targetAttribute' => ['T_ID' => 'T_ID']],
             [['U_ID'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['U_ID' => 'U_ID']],
+            [['S_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['S_ID' => 'S_ID']],
+            [['Teacher_U_ID', 'S_ID'], 'exist', 'skipOnError' => true, 'targetClass' => User_Subject::class, 'targetAttribute' => ['Teacher_U_ID' => 'U_ID', 'S_ID' => 'S_ID']],
         ];
     }
 
@@ -59,7 +77,7 @@ class Homework extends \yii\db\ActiveRecord
             'H_ID' => Yii::t('app', 'H ID'),
             'U_ID' => Yii::t('app', 'U ID'),
             'S_ID' => Yii::t('app', 'S ID'),
-            'T_ID' => Yii::t('app', 'T ID'),
+            'Teacher_U_ID' => Yii::t('app', 'Teacher U ID'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'due_at' => Yii::t('app', 'Due At'),
@@ -70,42 +88,43 @@ class Homework extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[S]].
-     *
-     * @return \yii\db\ActiveQuery|UserQuery
+     * @return \yii\db\ActiveQuery
      */
-    public function getS()
+    public function getSubject()
     {
         return $this->hasOne(Subject::class, ['S_ID' => 'S_ID']);
     }
 
     /**
-     * Gets query for [[T]].
-     *
-     * @return \yii\db\ActiveQuery|UserQuery
+     * @return \yii\db\ActiveQuery
      */
-    public function getT()
-    {
-        return $this->hasOne(Teacher::class, ['T_ID' => 'T_ID']);
-    }
-
-    /**
-     * Gets query for [[U]].
-     *
-     * @return \yii\db\ActiveQuery|UserQuery
-     */
-    public function getU()
+    public function getOwner()
     {
         return $this->hasOne(User::class, ['U_ID' => 'U_ID']);
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTeacher()
+    {
+        return $this->hasOne(User::class, ['U_ID' => 'Teacher_U_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTeacherSubject()
+    {
+        return $this->hasOne(User_Subject::class, ['U_ID' => 'Teacher_U_ID', 'S_ID' => 'S_ID']);
+    }
+
+    /**
      * {@inheritdoc}
-     * @return UserQuery the active query used by this AR class.
+     * @return HomeworkQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UserQuery(get_called_class());
+        return new HomeworkQuery(get_called_class());
     }
-
 }

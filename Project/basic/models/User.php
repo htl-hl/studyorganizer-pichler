@@ -11,6 +11,7 @@ use Yii;
  * @property string $U_username
  * @property string $U_password
  * @property string $U_role
+ * @property int $U_is_active
  * @property string $U_creation_date
  *
  * @property Homework[] $homeworks
@@ -19,6 +20,7 @@ class User extends \yii\db\ActiveRecord
 {
     public const ROLE_USER = 'user';
     public const ROLE_ADMIN = 'admin';
+    public const ROLE_TEACHER = 'teacher';
 
 
     /**
@@ -36,9 +38,12 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['U_username', 'U_password', 'U_role', 'U_creation_date'], 'required'],
+            [['U_is_active'], 'default', 'value' => 1],
+            [['U_is_active'], 'integer'],
             [['U_creation_date'], 'safe'],
             [['U_username', 'U_password', 'U_role'], 'string', 'max' => 255],
             [['U_username'], 'unique'],
+            ['U_role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_TEACHER]],
         ];
     }
 
@@ -52,6 +57,7 @@ class User extends \yii\db\ActiveRecord
             'U_username' => Yii::t('app', 'U Username'),
             'U_password' => Yii::t('app', 'U Password'),
             'U_role' => Yii::t('app', 'U Role'),
+            'U_is_active' => Yii::t('app', 'U Is Active'),
             'U_creation_date' => Yii::t('app', 'U Creation Date'),
         ];
     }
@@ -64,6 +70,22 @@ class User extends \yii\db\ActiveRecord
     public function getHomeworks()
     {
         return $this->hasMany(Homework::class, ['U_ID' => 'U_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAssignedHomeworks()
+    {
+        return $this->hasMany(Homework::class, ['Teacher_U_ID' => 'U_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSubjects()
+    {
+        return $this->hasMany(User_Subject::class, ['U_ID' => 'U_ID']);
     }
 
     /**
@@ -138,6 +160,22 @@ class User extends \yii\db\ActiveRecord
     public function isUserOrAdmin()
     {
         return in_array($this->normalizedRole(), [self::ROLE_USER, self::ROLE_ADMIN], true);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTeacher()
+    {
+        return $this->normalizedRole() === self::ROLE_TEACHER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return (int)$this->U_is_active === 1;
     }
 
     /**

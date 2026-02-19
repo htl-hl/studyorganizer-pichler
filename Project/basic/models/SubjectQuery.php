@@ -3,20 +3,15 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[User]].
+ * This is the ActiveQuery class for [[Subject]].
  *
- * @see User
+ * @see Subject
  */
-class UserQuery extends \yii\db\ActiveQuery
+class SubjectQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
     /**
      * {@inheritdoc}
-     * @return User[]|array
+     * @return Subject[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +20,7 @@ class UserQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return User|array|null
+     * @return Subject|array|null
      */
     public function one($db = null)
     {
