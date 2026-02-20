@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Log in as User/Admin or Teacher.</p>
+    <p>Log in with your username and password.</p>
 
     <div class="row">
         <div class="col-lg-5">
@@ -33,8 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 
-            <?= $form->field($model, 'loginAs')->dropDownList($model->getLoginAsOptions()) ?>
-
             <div class="form-group">
                 <div>
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
@@ -44,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
 
             <div style="color:#999;">
-                For teacher accounts use <strong>Login as Teacher</strong>.
+                No account yet? <?= Html::a('Register here', ['site/register']) ?>.
             </div>
 
         </div>

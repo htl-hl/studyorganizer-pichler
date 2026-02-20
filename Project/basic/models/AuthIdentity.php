@@ -33,24 +33,35 @@ class AuthIdentity implements IdentityInterface
     }
 
     /**
-     * Finds identity from username + selected login mode.
+     * Finds identity from username for basic login.
      *
      * @param string $username
-     * @param string $loginAs
      * @return self|null
      */
-    public static function findByCredentials($username, $loginAs)
+    public static function findByUsername($username)
+    {
+        return self::findByCredentials($username);
+    }
+
+    /**
+     * Finds identity from username + optional selected login mode.
+     *
+     * @param string $username
+     * @param string|null $loginAs
+     * @return self|null
+     */
+    public static function findByCredentials($username, $loginAs = null)
     {
         $user = User::findOne(['U_username' => $username]);
         if ($user === null) {
             return null;
         }
 
-        if ($loginAs === self::TYPE_TEACHER && !$user->isTeacher()) {
+        if ($user->isTeacher() && !$user->isActive()) {
             return null;
         }
 
-        if ($loginAs === self::TYPE_TEACHER && !$user->isActive()) {
+        if ($loginAs === self::TYPE_TEACHER && !$user->isTeacher()) {
             return null;
         }
 
@@ -99,7 +110,11 @@ class AuthIdentity implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return '';
+        return hash_hmac(
+            'sha256',
+            $this->accountId . '|' . $this->username . '|' . $this->passwordHash,
+            Yii::$app->request->cookieValidationKey
+        );
     }
 
     /**
@@ -107,7 +122,7 @@ class AuthIdentity implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return false;
+        return hash_equals($this->getAuthKey(), (string)$authKey);
     }
 
     /**

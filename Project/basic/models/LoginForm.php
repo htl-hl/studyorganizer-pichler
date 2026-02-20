@@ -13,12 +13,8 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public const LOGIN_AS_USER = AuthIdentity::TYPE_USER;
-    public const LOGIN_AS_TEACHER = AuthIdentity::TYPE_TEACHER;
-
     public $username;
     public $password;
-    public $loginAs = self::LOGIN_AS_USER;
 
     private $_identity = false;
 
@@ -30,9 +26,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password', 'loginAs'], 'required'],
+            [['username', 'password'], 'required'],
             ['username', 'trim'],
-            ['loginAs', 'in', 'range' => array_keys($this->getLoginAsOptions())],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -46,7 +41,6 @@ class LoginForm extends Model
         return [
             'username' => 'Username',
             'password' => 'Password',
-            'loginAs' => 'Login as',
         ];
     }
 
@@ -88,20 +82,9 @@ class LoginForm extends Model
     public function getIdentity()
     {
         if ($this->_identity === false) {
-            $this->_identity = AuthIdentity::findByCredentials($this->username, $this->loginAs);
+            $this->_identity = AuthIdentity::findByUsername($this->username);
         }
 
         return $this->_identity;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getLoginAsOptions()
-    {
-        return [
-            self::LOGIN_AS_USER => 'User / Admin',
-            self::LOGIN_AS_TEACHER => 'Teacher',
-        ];
     }
 }

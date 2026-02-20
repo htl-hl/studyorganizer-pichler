@@ -37,27 +37,24 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
 
+    $isGuest = Yii::$app->user->isGuest;
+    $identity = Yii::$app->user->identity;
+    $logoutLabel = 'Logout';
+    if (!$isGuest && $identity !== null) {
+        $logoutLabel = 'Logout (' . $identity->getUsername() . ')';
+    }
+
     $navItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
+        ['label' => 'Register', 'url' => ['/site/register'], 'visible' => $isGuest],
+        [
+            'label' => $logoutLabel,
+            'url' => ['/site/logout'],
+            'visible' => !$isGuest,
+            'linkOptions' => ['data-method' => 'post'],
+        ],
     ];
-
-    if (Yii::$app->user->isGuest) {
-        $navItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-        $navItems[] = ['label' => 'Register', 'url' => ['/site/register']];
-    } else {
-        $navItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
-
-        $identity = Yii::$app->user->identity;
-        $logoutLabel = 'Logout (' . $identity->getUsername() . ' - ' . ucfirst($identity->getRole()) . ')';
-        $navItems[] = '<li class="nav-item">'
-            . Html::beginForm(['/site/logout'])
-            . Html::submitButton(
-                $logoutLabel,
-                ['class' => 'nav-link btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
