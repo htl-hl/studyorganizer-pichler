@@ -38,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?php ActiveForm::end(); ?>
+
+            <div style="color:#999;">
+                Already registered? <?= Html::a('Log in here', ['site/login']) ?>.
+            </div>
         </div>
     </div>
 </div>

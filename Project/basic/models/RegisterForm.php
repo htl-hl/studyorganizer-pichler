@@ -50,6 +50,7 @@ class RegisterForm extends Model
         $user = new User();
         $user->U_username = $this->username;
         $user->U_role = User::ROLE_USER;
+        $user->U_is_active = 1;
         $user->U_creation_date = date('Y-m-d H:i:s');
         $user->setPassword($this->password);
 
