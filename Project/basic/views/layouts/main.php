@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\User;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
@@ -40,12 +41,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     $isGuest = Yii::$app->user->isGuest;
     $identity = Yii::$app->user->identity;
     $logoutLabel = 'Logout';
+    $isAdmin = false;
     if (!$isGuest && $identity !== null) {
         $logoutLabel = 'Logout (' . $identity->getUsername() . ')';
+        $isAdmin = method_exists($identity, 'getRole')
+            && strtolower((string)$identity->getRole()) === User::ROLE_ADMIN;
     }
 
     $navItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Admin', 'url' => ['/admin/users'], 'visible' => $isAdmin],
         ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
         ['label' => 'Register', 'url' => ['/site/register'], 'visible' => $isGuest],
         [
