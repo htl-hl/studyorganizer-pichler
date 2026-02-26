@@ -50,7 +50,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     }
 
     $navItems = [
-        ['label' => 'Home', 'url' => $homeUrl],
         ['label' => 'My Homework', 'url' => ['/homework/index'], 'visible' => !$isGuest],
         ['label' => 'Admin', 'url' => ['/admin/users'], 'visible' => $isAdmin],
         ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
