@@ -31,7 +31,9 @@ class Subject extends \yii\db\ActiveRecord
     {
         return [
             [['S_name'], 'required'],
+            [['S_name'], 'trim'],
             [['S_name'], 'string', 'max' => 255],
+            [['S_name'], 'unique'],
         ];
     }
 

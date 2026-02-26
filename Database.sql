@@ -31,7 +31,7 @@ CREATE TABLE Homework (
     S_ID INT NOT NULL,
     Teacher_U_ID INT NOT NULL,
     title VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
     due_at DATETIME NOT NULL,
     is_done BOOLEAN NOT NULL,
     created_at DATETIME NOT NULL,

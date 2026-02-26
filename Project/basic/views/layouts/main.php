@@ -6,7 +6,6 @@
 use app\assets\AppAsset;
 use app\models\User;
 use app\widgets\Alert;
-use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
@@ -42,14 +41,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     $identity = Yii::$app->user->identity;
     $logoutLabel = 'Logout';
     $isAdmin = false;
+    $homeUrl = ['/site/index'];
     if (!$isGuest && $identity !== null) {
         $logoutLabel = 'Logout (' . $identity->getUsername() . ')';
         $isAdmin = method_exists($identity, 'getRole')
             && strtolower((string)$identity->getRole()) === User::ROLE_ADMIN;
+        $homeUrl = ['/homework/index'];
     }
 
     $navItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Home', 'url' => $homeUrl],
+        ['label' => 'My Homework', 'url' => ['/homework/index'], 'visible' => !$isGuest],
         ['label' => 'Admin', 'url' => ['/admin/users'], 'visible' => $isAdmin],
         ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
         ['label' => 'Register', 'url' => ['/site/register'], 'visible' => $isGuest],
@@ -71,9 +73,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <main id="main" class="flex-shrink-0" role="main">
     <div class="container">
-        <?php if (!empty($this->params['breadcrumbs'])): ?>
-            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-        <?php endif ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
