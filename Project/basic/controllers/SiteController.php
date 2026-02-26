@@ -21,15 +21,19 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'except' => ['index', 'about', 'login', 'register', 'error', 'captcha'],
+                'except' => ['login', 'register', 'error', 'captcha'], // 'index' und 'about' entfernt
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
-                'denyCallback' => function () {
-                    return $this->redirect(['site/login']);
+                'denyCallback' => function ($rule, $action) {
+                    // Wenn nicht eingeloggt, zur Login-Seite weiterleiten
+                    if ($action->id !== 'login') {
+                        return $this->redirect(['site/login']);
+                    }
+                    return null;
                 },
             ],
             'verbs' => [
@@ -58,26 +62,30 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Dashboard/Hauptseite für eingeloggte Benutzer.
+     * Diese Action ist NUR für eingeloggte Benutzer zugänglich.
      *
-     * @return string
+     * @return string|Response
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['homework/index']);
+        // Prüfen ob Benutzer eingeloggt ist
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
         }
 
-        return $this->render('index');
+        // Eingeloggte User werden zum homework/index weitergeleitet
+        return $this->redirect(['homework/index']);
     }
 
     /**
-     * Login action.
+     * Login action - Jetzt die Standard-Startseite für nicht eingeloggte User.
      *
      * @return Response|string
      */
     public function actionLogin()
     {
+        // Wenn schon eingeloggt, zum homework/index weiterleiten
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['homework/index']);
         }
@@ -100,14 +108,14 @@ class SiteController extends Controller
      */
     public function actionRegister()
     {
+        // Wenn schon eingeloggt, zum homework/index weiterleiten
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
             Yii::$app->session->setFlash('success', 'Account created. You can now log in.');
-
             return $this->redirect(['site/login']);
         }
 
@@ -125,22 +133,29 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        // Nach Logout zur Login-Seite weiterleiten
+        return $this->redirect(['site/login']);
     }
 
     /**
      * Displays contact page.
+     * Diese Seite sollte nur für eingeloggte User zugänglich sein.
      *
      * @return Response|string
      */
     public function actionContact()
     {
+        // Prüfen ob Benutzer eingeloggt ist
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
-
             return $this->refresh();
         }
+
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -148,11 +163,13 @@ class SiteController extends Controller
 
     /**
      * Displays about page.
+     * Diese Seite ist öffentlich zugänglich (bleibt wie gehabt).
      *
      * @return string
      */
     public function actionAbout()
     {
+        // About-Seite ist öffentlich, aber wir können einen Hinweis zeigen
         return $this->render('about');
     }
 }

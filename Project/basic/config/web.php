@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'Study Orginaser',
+    'name' => 'Study Organizer',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,15 +15,15 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'ERT-5RGKfig8kB3yVHwZ5FrdQaSZf_zV',
+            'cookieValidationKey' => 'dein-cookie-validation-key-hier',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\AuthIdentity',
-            'enableAutoLogin' => false,
-            'loginUrl' => ['site/login'],
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['site/login'], // Login-URL definieren
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -44,14 +44,25 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // Hier definieren wir die Login-Seite als Startseite
+                '' => 'site/login', // Leere Route = Login-Seite
+                'dashboard' => 'site/index', // Dashboard als interne Startseite
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                'signup' => 'site/signup',
+                'about' => 'site/about',
+                'contact' => 'site/contact',
+
+                // RESTful Routing für Controller
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
@@ -61,15 +72,15 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // Allow local + Docker/DDEV subnet access in development.
-        'allowedIPs' => ['127.0.0.1', '::1', '172.*.*.*'],
+        // uncomment the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        // Allow local + Docker/DDEV subnet access in development.
-        'allowedIPs' => ['127.0.0.1', '::1', '172.*.*.*'],
+        // uncomment the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
