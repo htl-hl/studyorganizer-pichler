@@ -86,3 +86,29 @@ a.desc:after {
 .form-group {
     margin-bottom: 1rem;
 }
+
+.table-homework tr.homework-due-blue > td {
+    background-color: #e7f1ff;
+}
+
+.table-homework tr.homework-due-yellow > td {
+    background-color: #fff7da;
+}
+
+.table-homework tr.homework-due-red > td {
+    background-color: #ffe1e1;
+}
+
+.table-homework tr.homework-row-done > td {
+    background-color: #f4f6f8;
+    color: #6c757d;
+}
+
+.homework-actions .btn {
+    margin-right: 0.35rem;
+    margin-bottom: 0.2rem;
+}
+
+.homework-description {
+    white-space: pre-wrap;
+}

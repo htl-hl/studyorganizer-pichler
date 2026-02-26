@@ -64,6 +64,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['homework/index']);
+        }
+
         return $this->render('index');
     }
 
@@ -75,12 +79,12 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['homework/index']);
         }
 
         $model->password = '';
@@ -149,6 +153,6 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('index');
+        return $this->render('about');
     }
 }
