@@ -10,6 +10,7 @@ use yii\bootstrap5\Html;
 $this->title = 'Registrieren';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="site-register">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">

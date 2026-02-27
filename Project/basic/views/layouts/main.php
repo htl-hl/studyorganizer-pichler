@@ -20,6 +20,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 ?>
 <?php $this->beginPage() ?>
+<<<<<<< HEAD
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>" class="h-100">
     <head>
@@ -28,6 +29,18 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </head>
     <body class="d-flex flex-column h-100">
     <?php $this->beginBody() ?>
+=======
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>" class="h-100">
+<!-- Font Awesome für Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
+</head>
+<body class="d-flex flex-column h-100">
+<?php $this->beginBody() ?>
+>>>>>>> 5f81c22 (commit)
 
     <header id="header">
         <?php
