@@ -1,114 +1,190 @@
-main > .container {
-    padding: 70px 15px 20px;
+/* Register Page Specific Styles */
+.site-register {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%);
+    padding: 2rem 0;
 }
 
-.footer {
-    background-color: #f5f5f5;
-    font-size: .9em;
-    height: 60px;
+.site-register .card {
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #2d3748 0%, #1e2533 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: slideUpFade 0.6s ease-out;
 }
 
-.footer > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+.site-register .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    border-color: rgba(102, 126, 234, 0.3);
 }
 
-.not-set {
-    color: #c55;
-    font-style: italic;
+/* Password Strength Indicator */
+.site-register .password-strength {
+    margin-top: 0.5rem;
+    height: 5px;
+    border-radius: 3px;
+    background: #4a5568;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    content: '';
-    left: 3px;
-    display: inline-block;
+.site-register .password-strength-bar {
+    height: 100%;
     width: 0;
-    height: 0;
-    border: solid 5px transparent;
-    margin: 4px 4px 2px 4px;
-    background: transparent;
+    transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-a.asc:after {
-    border-bottom: solid 7px #212529;
-    border-top-width: 0;
+.site-register .password-strength-text {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: #a0aec0;
 }
 
-a.desc:after {
-    border-top: solid 7px #212529;
-    border-bottom-width: 0;
+/* Strength levels */
+.site-register .strength-weak .password-strength-bar {
+    background: #fc8181;
+    width: 25%;
 }
 
-.grid-view th {
-    white-space: nowrap;
+.site-register .strength-medium .password-strength-bar {
+    background: #fbbf6e;
+    width: 50%;
 }
 
-.hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
+.site-register .strength-good .password-strength-bar {
+    background: #9ae6b4;
+    width: 75%;
 }
 
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
+.site-register .strength-strong .password-strength-bar {
+    background: #9f7aea;
+    width: 100%;
 }
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding-top: 7px;
-    color: rgba(255, 255, 255, 0.5);
+/* Password match indicator */
+.site-register .password-match {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    transition: color 0.3s ease;
 }
 
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 0;
+.site-register .password-match.match {
+    color: #9ae6b4;
+}
+
+.site-register .password-match.match i {
+    color: #9ae6b4;
+}
+
+.site-register .password-match.no-match {
+    color: #fc8181;
+}
+
+.site-register .password-match.no-match i {
+    color: #fc8181;
+}
+
+/* Terms checkbox styling */
+.site-register .form-check {
+    margin: 1.5rem 0;
+    padding-left: 1.8rem;
+}
+
+.site-register .form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: -1.8rem;
+    background-color: #2d3748;
+    border: 2px solid #4a5568;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.site-register .form-check-input:checked {
+    background-color: #9f7aea;
+    border-color: #9f7aea;
+}
+
+.site-register .form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(159, 122, 234, 0.25);
+    border-color: #9f7aea;
+}
+
+.site-register .form-check-label {
+    color: #cbd5e0;
+    cursor: pointer;
+}
+
+/* Form text hints */
+.site-register .form-text {
+    font-size: 0.85rem;
+    color: #a0aec0 !important;
+    margin-top: 0.3rem;
+    padding-left: 0.3rem;
+}
+
+.site-register .form-text i {
+    color: #b794f4;
+    font-size: 0.75rem;
+}
+
+/* Validation states */
+.site-register .has-success .form-control {
+    border-color: #9ae6b4;
+    background-color: #1a202c;
+}
+
+.site-register .has-success .form-label {
+    color: #9ae6b4;
+}
+
+.site-register .has-error .form-control {
+    border-color: #fc8181;
+    background-color: #2d1a1a;
+}
+
+/* Input group icons (optional) */
+.site-register .input-group {
+    position: relative;
+}
+
+.site-register .input-group-text {
+    background: linear-gradient(135deg, #667eea 0%, #9f7aea 100%);
+    border: none;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .site-register {
+        padding: 1rem;
+        align-items: flex-start;
+    }
+
+    .site-register .card {
+        margin-top: 2rem;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.75);
-}
+@media (max-width: 576px) {
+    .site-register .card-header h1 {
+        font-size: 1.5rem;
+    }
 
-.nav > li > form > button.logout:focus {
-    outline: none;
-}
+    .site-register .card-body {
+        padding: 1.5rem !important;
+    }
 
-.form-group {
-    margin-bottom: 1rem;
-}
+    .site-register .btn-lg {
+        padding: 0.65rem 1rem;
+        font-size: 1rem;
+    }
 
-.table-homework tr.homework-due-blue > td {
-    background-color: #e7f1ff;
-}
-
-.table-homework tr.homework-due-yellow > td {
-    background-color: #fff7da;
-}
-
-.table-homework tr.homework-due-red > td {
-    background-color: #ffe1e1;
-}
-
-.table-homework tr.homework-row-done > td {
-    background-color: #f4f6f8;
-    color: #6c757d;
-}
-
-.homework-actions .btn {
-    margin-right: 0.35rem;
-    margin-bottom: 0.2rem;
-}
-
-.homework-description {
-    white-space: pre-wrap;
+    .site-register .form-text {
+        font-size: 0.75rem;
+    }
 }

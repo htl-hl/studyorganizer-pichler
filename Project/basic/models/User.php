@@ -13,42 +13,70 @@ class User extends ActiveRecord implements IdentityInterface
         return 'User';
     }
 
+    // Primärschlüssel ist U_ID
+    public static function primaryKey()
+    {
+        return ['U_ID'];
+    }
+
+    // IdentityInterface Methoden
     public static function findIdentity($id)
     {
-        echo "Debug: findIdentity called with id: $id<br>";
-        return static::findOne($id);
+        return static::findOne(['U_ID' => $id]);
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return null;
+        return null; // Wird nicht verwendet
     }
 
     public static function findByUsername($username)
     {
-        echo "Debug: findByUsername called with: $username<br>";
-        return static::findOne(['username' => $username]);
+        return static::findOne(['U_username' => $username]);
     }
 
     public function getId()
     {
-        return $this->id;
+        return $this->U_ID;
     }
 
     public function getAuthKey()
     {
-        return $this->auth_key;
+        // Einen eindeutigen Auth-Key generieren (z.B. aus ID und Username)
+        return md5($this->U_ID . $this->U_username);
     }
 
     public function validateAuthKey($authKey)
     {
-        echo "Debug: validateAuthKey called<br>";
         return $this->getAuthKey() === $authKey;
     }
 
+    // Passwort-Validierung
     public function validatePassword($password)
     {
-        echo "Debug: validatePassword called<br>";
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->U_password);
+    }
+
+    // Passwort setzen (für Registrierung)
+    public function setPassword($password)
+    {
+        $this->U_password = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    // Auth-Key generieren (für Registrierung)
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    // Rollen-Funktionen (optional)
+    public function isAdmin()
+    {
+        return $this->U_role === 'admin';
+    }
+
+    public function isActive()
+    {
+        return $this->U_is_active == 1;
     }
 }
