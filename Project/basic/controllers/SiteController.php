@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Forums;
 use app\models\Produkte;
+use app\models\RegisterForm;
 use Yii;
 use yii\base\DynamicModel;
 use yii\filters\AccessControl;
@@ -120,7 +121,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new SignupForm();
+        $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post())) {
             $user = $model->signup();
             if ($user !== null && Yii::$app->user->login($user)) {
