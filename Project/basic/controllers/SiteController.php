@@ -2,17 +2,13 @@
 
 namespace app\controllers;
 
-use app\models\Forums;
-use app\models\Produkte;
-use app\models\RegisterForm;
 use Yii;
-use yii\base\DynamicModel;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\SignupForm;
+use app\models\RegisterForm;
 use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -25,19 +21,20 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'contact'], // 'contact' hinzugefügt
+                'except' => ['login', 'register', 'error', 'captcha'], // 'index' und 'about' entfernt
                 'rules' => [
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'actions' => ['contact'],
-                        'allow' => true,
-                        'roles' => ['@'], // Nur eingeloggte Benutzer dürfen contact aufrufen
-                    ],
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    // Wenn nicht eingeloggt, zur Login-Seite weiterleiten
+                    if ($action->id !== 'login') {
+                        return $this->redirect(['site/login']);
+                    }
+                    return null;
+                },
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -65,43 +62,37 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Dashboard/Hauptseite für eingeloggte Benutzer.
+     * Diese Action ist NUR für eingeloggte Benutzer zugänglich.
      *
-     * @return string
+     * @return string|Response
      */
     public function actionIndex()
     {
-        $searchModel = new DynamicModel();
-        $searchModel->addRule(['text'], 'string', ['max' => 128]);
-        $forumsQuery = Forums::find();
-
-        $searchModel->load(Yii::$app->request->post());
-        if ($searchModel->text != null) {
-            $forumsQuery->where(['LIKE','F_title', $searchModel->text]);
-            $forumsQuery->orWhere(['LIKE', 'F_description', $searchModel->text]);
+        // Prüfen ob Benutzer eingeloggt ist
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
         }
 
-
-        $forums = $forumsQuery->all();
-        return $this->render('index', [
-            'forums' => $forums,
-        ]);
+        // Eingeloggte User werden zum homework/index weitergeleitet
+        return $this->redirect(['homework/index']);
     }
 
     /**
-     * Login action.
+     * Login action - Jetzt die Standard-Startseite für nicht eingeloggte User.
      *
      * @return Response|string
      */
     public function actionLogin()
     {
+        // Wenn schon eingeloggt, zum homework/index weiterleiten
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['homework/index']);
         }
 
         $model->password = '';
@@ -117,16 +108,15 @@ class SiteController extends Controller
      */
     public function actionRegister()
     {
+        // Wenn schon eingeloggt, zum homework/index weiterleiten
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new RegisterForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $user = $model->signup();
-            if ($user !== null && Yii::$app->user->login($user)) {
-                return $this->goHome();
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            Yii::$app->session->setFlash('success', 'Account created. You can now log in.');
+            return $this->redirect(['site/login']);
         }
 
         return $this->render('register', [
@@ -143,37 +133,26 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        // Nach Logout zur Login-Seite weiterleiten
+        return $this->redirect(['site/login']);
     }
 
     /**
      * Displays contact page.
-     * Nur für eingeloggte Benutzer zugänglich.
+     * Diese Seite sollte nur für eingeloggte User zugänglich sein.
      *
      * @return Response|string
      */
     public function actionContact()
     {
+        // Prüfen ob Benutzer eingeloggt ist
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
         $model = new ContactForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // Benutzerdaten aus der Session holen
-            $user = Yii::$app->user->identity;
-
-            // E-Mail an Admin senden
-            $sent = Yii::$app->mailer->compose()
-                ->setTo(Yii::$app->params['adminEmail'])
-                ->setFrom([$user->email => $user->U_username])
-                ->setSubject($model->subject)
-                ->setTextBody($model->body)
-                ->send();
-
-            if ($sent) {
-                Yii::$app->session->setFlash('success', 'Vielen Dank für Ihre Nachricht. Wir werden uns bald bei Ihnen melden.');
-            } else {
-                Yii::$app->session->setFlash('error', 'Es gab ein Problem beim Senden Ihrer Nachricht.');
-            }
-
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
         }
 
@@ -184,11 +163,13 @@ class SiteController extends Controller
 
     /**
      * Displays about page.
+     * Diese Seite ist öffentlich zugänglich (bleibt wie gehabt).
      *
      * @return string
      */
     public function actionAbout()
     {
+        // About-Seite ist öffentlich, aber wir können einen Hinweis zeigen
         return $this->render('about');
     }
 }

@@ -7,33 +7,27 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Registrieren';
+$this->title = 'Register';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="site-register">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg border-0 rounded-lg">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h1 class="h3 mb-0">
-                        <i class="fas fa-user-plus me-2"></i>
-                        <?= Html::encode($this->title) ?>
-                    </h1>
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h2 class="mb-0">📝 Create Account</h2>
+                    <p class="mb-0 mt-2">Join Study Organizer today</p>
                 </div>
+
                 <div class="card-body p-4">
-
-                    <p class="text-muted text-center mb-4">
-                        <i class="fas fa-address-card me-2"></i>
-                        Erstelle einen neuen Account
-                    </p>
-
                     <?php $form = ActiveForm::begin([
                             'id' => 'register-form',
                             'fieldConfig' => [
                                     'template' => "{label}\n{input}\n{error}",
-                                    'labelOptions' => ['class' => 'form-label fw-semibold'],
-                                    'inputOptions' => ['class' => 'form-control form-control-lg rounded-3'],
-                                    'errorOptions' => ['class' => 'invalid-feedback d-block'],
+                                    'labelOptions' => ['class' => 'form-label fw-bold'],
+                                    'inputOptions' => ['class' => 'form-control form-control-lg'],
+                                    'errorOptions' => ['class' => 'invalid-feedback'],
                             ],
                     ]); ?>
 
@@ -41,67 +35,40 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'username')
                                 ->textInput([
                                         'autofocus' => true,
-                                        'placeholder' => 'z.B. max.mustermann',
-                                        'class' => 'form-control form-control-lg rounded-3'
+                                        'placeholder' => 'Choose a username'
                                 ])
-                                ->label('Benutzername') ?>
-                        <small class="text-muted form-text">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Min. 3 Zeichen, nur Buchstaben und Zahlen
-                        </small>
+                                ->label('<i class="fas fa-user me-2"></i>Username') ?>
                     </div>
 
                     <div class="mb-4">
                         <?= $form->field($model, 'email')
                                 ->textInput([
-                                        'type' => 'email',
-                                        'placeholder' => 'max.mustermann@example.com',
-                                        'class' => 'form-control form-control-lg rounded-3'
+                                        'placeholder' => 'Enter your email'
                                 ])
-                                ->label('E-Mail Adresse') ?>
+                                ->label('<i class="fas fa-envelope me-2"></i>Email') ?>
                     </div>
 
                     <div class="mb-4">
                         <?= $form->field($model, 'password')
                                 ->passwordInput([
-                                        'placeholder' => '••••••••',
-                                        'class' => 'form-control form-control-lg rounded-3'
+                                        'placeholder' => 'Create a password'
                                 ])
-                                ->label('Passwort') ?>
-                        <small class="text-muted form-text">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Min. 8 Zeichen, mit Groß-/Kleinbuchstaben und Zahlen
-                        </small>
+                                ->label('<i class="fas fa-lock me-2"></i>Password') ?>
                     </div>
 
                     <div class="mb-4">
                         <?= $form->field($model, 'passwordRepeat')
                                 ->passwordInput([
-                                        'placeholder' => '••••••••',
-                                        'class' => 'form-control form-control-lg rounded-3'
+                                        'placeholder' => 'Confirm your password'
                                 ])
-                                ->label('Passwort bestätigen') ?>
+                                ->label('<i class="fas fa-lock me-2"></i>Confirm Password') ?>
                     </div>
 
-                    <div class="mb-4 form-check">
-                        <?= Html::checkbox('terms', false, [
-                                'id' => 'terms-checkbox',
-                                'class' => 'form-check-input',
-                                'required' => true
-                        ]) ?>
-                        <label class="form-check-label text-muted" for="terms-checkbox">
-                            Ich akzeptiere die
-                            <?= Html::a('Nutzungsbedingungen', ['site/terms'], ['class' => 'text-decoration-none']) ?>
-                            und
-                            <?= Html::a('Datenschutzerklärung', ['site/privacy'], ['class' => 'text-decoration-none']) ?>
-                        </label>
-                    </div>
-
-                    <div class="d-grid gap-2 mb-4">
+                    <div class="d-grid gap-2">
                         <?= Html::submitButton(
-                                '<i class="fas fa-user-plus me-2"></i> Jetzt registrieren',
+                                '<i class="fas fa-user-plus me-2"></i>Register',
                                 [
-                                        'class' => 'btn btn-primary btn-lg rounded-3 py-3 fw-bold',
+                                        'class' => 'btn btn-success btn-lg',
                                         'name' => 'register-button'
                                 ]
                         ) ?>
@@ -109,21 +76,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?php ActiveForm::end(); ?>
 
-                    <div class="text-center mt-3">
-                        <p class="mb-1">
-                            <i class="fas fa-sign-in-alt me-1 text-primary"></i>
-                            Bereits registriert?
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-0">
+                            Already registered?
                             <?= Html::a(
-                                    'Hier anmelden',
+                                    'Log in here',
                                     ['site/login'],
-                                    ['class' => 'text-decoration-none fw-bold']
-                            ) ?>
-                        </p>
-                        <p class="mb-0 mt-2">
-                            <small class="text-muted">
-                                <i class="fas fa-shield-alt me-1"></i>
-                                Deine Daten sind bei uns sicher
-                            </small>
+                                    ['class' => 'text-success fw-bold text-decoration-none']
+                            ) ?>.
                         </p>
                     </div>
                 </div>

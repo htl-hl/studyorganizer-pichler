@@ -20,73 +20,75 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 ?>
 <?php $this->beginPage() ?>
-    <!DOCTYPE html>
-    <html lang="<?= Yii::$app->language ?>" class="h-100">
-    <head>
-        <title><?= Html::encode($this->title) ?></title>
-        <?php $this->head() ?>
-    </head>
-    <body class="d-flex flex-column h-100">
-    <?php $this->beginBody() ?>
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>" class="h-100">
+<!-- Font Awesome für Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
+</head>
+<body class="d-flex flex-column h-100">
+<?php $this->beginBody() ?>
 
-    <header id="header">
-        <?php
-        NavBar::begin([
-                'brandLabel' => Yii::$app->name,
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
-        ]);
+<header id="header">
+    <?php
+    NavBar::begin([
+        'brandLabel' => Yii::$app->name,
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+    ]);
 
-        $isGuest = Yii::$app->user->isGuest;
-        $identity = Yii::$app->user->identity;
-        $logoutLabel = 'Logout';
-        $isAdmin = false;
-        $homeUrl = ['/site/index'];
-        if (!$isGuest && $identity !== null) {
-            $logoutLabel = 'Logout (' . $identity->getUsername() . ')';
-            $isAdmin = method_exists($identity, 'getRole')
-                    && strtolower((string)$identity->getRole()) === User::ROLE_ADMIN;
-            $homeUrl = ['/homework/index'];
-        }
+    $isGuest = Yii::$app->user->isGuest;
+    $identity = Yii::$app->user->identity;
+    $logoutLabel = 'Logout';
+    $isAdmin = false;
+    $homeUrl = ['/site/index'];
+    if (!$isGuest && $identity !== null) {
+        $logoutLabel = 'Logout (' . $identity->getUsername() . ')';
+        $isAdmin = method_exists($identity, 'getRole')
+            && strtolower((string)$identity->getRole()) === User::ROLE_ADMIN;
+        $homeUrl = ['/homework/index'];
+    }
 
-        $navItems = [
-                ['label' => 'My Homework', 'url' => ['/homework/index'], 'visible' => !$isGuest],
-                ['label' => 'Admin', 'url' => ['/admin/users'], 'visible' => $isAdmin],
-                ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
-                ['label' => 'Register', 'url' => ['/site/register'], 'visible' => $isGuest],
-                [
-                        'label' => $logoutLabel,
-                        'url' => ['/site/logout'],
-                        'visible' => !$isGuest,
-                        'linkOptions' => ['data-method' => 'post'],
-                ],
-        ];
+    $navItems = [
+        ['label' => 'My Homework', 'url' => ['/homework/index'], 'visible' => !$isGuest],
+        ['label' => 'Admin', 'url' => ['/admin/users'], 'visible' => $isAdmin],
+        ['label' => 'Login', 'url' => ['/site/login'], 'visible' => $isGuest],
+        ['label' => 'Register', 'url' => ['/site/register'], 'visible' => $isGuest],
+        [
+            'label' => $logoutLabel,
+            'url' => ['/site/logout'],
+            'visible' => !$isGuest,
+            'linkOptions' => ['data-method' => 'post'],
+        ],
+    ];
 
-        echo Nav::widget([
-                'options' => ['class' => 'navbar-nav'],
-                'items' => $navItems,
-        ]);
-        NavBar::end();
-        ?>
-    </header>
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $navItems,
+    ]);
+    NavBar::end();
+    ?>
+</header>
 
-    <main id="main" class="flex-shrink-0" role="main">
-        <div class="container">
-            <?= Alert::widget() ?>
-            <?= $content ?>
+<main id="main" class="flex-shrink-0" role="main">
+    <div class="container">
+        <?= Alert::widget() ?>
+        <?= $content ?>
+    </div>
+</main>
+
+<footer id="footer" class="mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row text-muted">
+            <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
+            <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
         </div>
-    </main>
+    </div>
+</footer>
 
-    <footer id="footer" class="mt-auto py-3 bg-light">
-        <div class="container">
-            <div class="row text-muted">
-                <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
-                <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
-            </div>
-        </div>
-    </footer>
-
-    <?php $this->endBody() ?>
-    </body>
-    </html>
+<?php $this->endBody() ?>
+</body>
+</html>
 <?php $this->endPage() ?>

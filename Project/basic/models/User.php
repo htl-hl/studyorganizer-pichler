@@ -13,70 +13,42 @@ class User extends ActiveRecord implements IdentityInterface
         return 'User';
     }
 
-    // Primärschlüssel ist U_ID
-    public static function primaryKey()
-    {
-        return ['U_ID'];
-    }
-
-    // IdentityInterface Methoden
     public static function findIdentity($id)
     {
-        return static::findOne(['U_ID' => $id]);
+        echo "Debug: findIdentity called with id: $id<br>";
+        return static::findOne($id);
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return null; // Wird nicht verwendet
+        return null;
     }
 
     public static function findByUsername($username)
     {
-        return static::findOne(['U_username' => $username]);
+        echo "Debug: findByUsername called with: $username<br>";
+        return static::findOne(['username' => $username]);
     }
 
     public function getId()
     {
-        return $this->U_ID;
+        return $this->id;
     }
 
     public function getAuthKey()
     {
-        // Einen eindeutigen Auth-Key generieren (z.B. aus ID und Username)
-        return md5($this->U_ID . $this->U_username);
+        return $this->auth_key;
     }
 
     public function validateAuthKey($authKey)
     {
+        echo "Debug: validateAuthKey called<br>";
         return $this->getAuthKey() === $authKey;
     }
 
-    // Passwort-Validierung
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->U_password);
-    }
-
-    // Passwort setzen (für Registrierung)
-    public function setPassword($password)
-    {
-        $this->U_password = Yii::$app->security->generatePasswordHash($password);
-    }
-
-    // Auth-Key generieren (für Registrierung)
-    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
-    }
-
-    // Rollen-Funktionen (optional)
-    public function isAdmin()
-    {
-        return $this->U_role === 'admin';
-    }
-
-    public function isActive()
-    {
-        return $this->U_is_active == 1;
+        echo "Debug: validatePassword called<br>";
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 }
