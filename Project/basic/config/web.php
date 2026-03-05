@@ -35,7 +35,8 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => 'yii\symfonymailer\Mailer',
+            'viewPath' => '@app/mail',
             'useFileTransport' => true, // E-Mails werden in runtime/mail gespeichert
         ],
         'log' => [
@@ -57,7 +58,7 @@ $config = [
                 'dashboard' => 'site/index', // Dashboard als interne Startseite
                 'login' => 'site/login',
                 'logout' => 'site/logout',
-                'signup' => 'site/signup',
+                'signup' => 'site/register',
                 'about' => 'site/about',
                 'contact' => 'site/contact',
 

@@ -155,6 +155,7 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
+<<<<<<< HEAD
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             // Benutzerdaten aus der Session holen
@@ -172,6 +173,13 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Vielen Dank für Ihre Nachricht. Wir werden uns bald bei Ihnen melden.');
             } else {
                 Yii::$app->session->setFlash('error', 'Es gab ein Problem beim Senden Ihrer Nachricht.');
+=======
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->contact(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Danke, Ihre Nachricht wurde gesendet.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Nachricht konnte nicht gesendet werden. Bitte prüfen Sie Ihre Eingaben.');
+>>>>>>> 1b719a3 (fixed)
             }
 
             return $this->refresh();

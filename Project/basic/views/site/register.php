@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div class="mb-4">
+<<<<<<< HEAD
                         <?= $form->field($model, 'email')
                                 ->textInput([
                                         'type' => 'email',
@@ -63,6 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div class="mb-4">
+=======
+>>>>>>> 1b719a3 (fixed)
                         <?= $form->field($model, 'password')
                                 ->passwordInput([
                                         'placeholder' => '••••••••',
