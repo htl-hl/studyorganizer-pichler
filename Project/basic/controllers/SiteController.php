@@ -151,8 +151,13 @@ class SiteController extends Controller
         }
 
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->contact(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Danke, Ihre Nachricht wurde gesendet.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Nachricht konnte nicht gesendet werden. Bitte prüfen Sie Ihre Eingaben.');
+            }
+
             return $this->refresh();
         }
 

@@ -33,13 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
             <?= $form->field($model, 'name')->textInput([
-                    'value' => Yii::$app->user->identity->username,
+                    'value' => Yii::$app->user->identity ? Yii::$app->user->identity->getUsername() : '',
                     'readonly' => true
             ]) ?>
 
             <?= $form->field($model, 'email')->textInput([
-                    'value' => Yii::$app->user->identity->email,
-                    'readonly' => true
+                    'placeholder' => 'dein.name@example.com'
             ]) ?>
 
             <?= $form->field($model, 'subject')->textInput(['autofocus' => true]) ?>

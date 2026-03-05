@@ -41,14 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div class="mb-4">
-                        <?= $form->field($model, 'email')
-                                ->textInput([
-                                        'placeholder' => 'Enter your email'
-                                ])
-                                ->label('<i class="fas fa-envelope me-2"></i>Email') ?>
-                    </div>
-
-                    <div class="mb-4">
                         <?= $form->field($model, 'password')
                                 ->passwordInput([
                                         'placeholder' => 'Create a password'
