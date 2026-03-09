@@ -22,38 +22,70 @@ $currentTeacherId = (string)(int)$model->Teacher_U_ID;
 $currentTeacherOptions = $teacherOptionsBySubject[(int)$model->S_ID] ?? [];
 ?>
 
-<div class="homework-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <div class="homework-form">
+        <?php $form = ActiveForm::begin(['options' => ['class' => 'styled-form']]); ?>
 
-    <?= $form->field($model, 'S_ID')->dropDownList(
-        $subjectOptions,
-        [
-            'prompt' => 'Select subject',
-            'id' => 'homework-subject',
-        ]
-    ) ?>
+        <div class="form-row">
+            <div class="form-col">
+                <?= $form->field($model, 'S_ID')->dropDownList(
+                        $subjectOptions,
+                        [
+                                'prompt' => 'Select subject',
+                                'id' => 'homework-subject',
+                                'class' => 'form-control',
+                        ]
+                ) ?>
+            </div>
 
-    <?= $form->field($model, 'Teacher_U_ID')->dropDownList(
-        $currentTeacherOptions,
-        [
-            'prompt' => 'Select teacher',
-            'id' => 'homework-teacher',
-        ]
-    ) ?>
+            <div class="form-col">
+                <?= $form->field($model, 'Teacher_U_ID')->dropDownList(
+                        $currentTeacherOptions,
+                        [
+                                'prompt' => 'Select teacher',
+                                'id' => 'homework-teacher',
+                                'class' => 'form-control',
+                        ]
+                ) ?>
+            </div>
+        </div>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        <div class="form-row">
+            <div class="form-col">
+                <?= $form->field($model, 'title')->textInput([
+                        'maxlength' => true,
+                        'placeholder' => 'Enter homework title',
+                        'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+        <div class="form-row">
+            <div class="form-col">
+                <?= $form->field($model, 'description')->textarea([
+                        'rows' => 6,
+                        'placeholder' => 'Enter homework description',
+                        'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
 
-    <?= $form->field($model, 'due_at')->input('datetime-local', ['value' => $dueAtValue]) ?>
+        <div class="form-row">
+            <div class="form-col">
+                <?= $form->field($model, 'due_at')->input('datetime-local', [
+                        'value' => $dueAtValue,
+                        'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Cancel', ['homework/index'], ['class' => 'btn btn-outline-secondary']) ?>
+        <div class="form-actions">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Cancel', ['homework/index'], ['class' => 'btn btn-secondary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
-</div>
 <?php
 $teachersBySubjectJson = Json::htmlEncode($teacherOptionsBySubject);
 $currentSubjectIdJson = Json::htmlEncode($currentSubjectId);
