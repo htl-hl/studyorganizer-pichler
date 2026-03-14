@@ -11,9 +11,9 @@ class RegisterForm extends Model
     public $password;
     public $passwordRepeat;
 
-    /**
-     * @return array
-     */
+    
+
+
     public function rules()
     {
         return [
@@ -26,9 +26,9 @@ class RegisterForm extends Model
         ];
     }
 
-    /**
-     * @return array
-     */
+    
+
+
     public function attributeLabels()
     {
         return [
@@ -38,9 +38,9 @@ class RegisterForm extends Model
         ];
     }
 
-    /**
-     * @return bool
-     */
+    
+
+
     public function register()
     {
         if (!$this->validate()) {

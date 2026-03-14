@@ -1,9 +1,9 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var app\models\Homework[] $homeworks */
-/** @var array<int, string> $subjectOptions */
-/** @var int $selectedSubjectId */
+
+
+
+
 
 use yii\helpers\Html;
 
@@ -18,7 +18,7 @@ if ($selectedSubjectId > 0) {
 ?>
 
 <div class="homework-wrapper">
-    <!-- Header mit Titel und Create Button -->
+    
     <div class="homework-header">
         <div class="header-top">
             <h1 class="page-title">
@@ -27,7 +27,7 @@ if ($selectedSubjectId > 0) {
             </h1>
         </div>
         <br>
-        <!-- Filter Card -->
+        
         <div class="filter-card">
             <?= Html::beginForm(['index'], 'get', ['class' => 'filter-form']) ?>
             <div class="filter-group">
@@ -65,17 +65,17 @@ if ($selectedSubjectId > 0) {
         </div>
     </div>
 
-    <!-- Homework Content -->
+    
     <div class="homework-content">
         <?php if (empty($homeworks)): ?>
-            <!-- Empty State mit schönem Design -->
+            
             <div class="empty-state-card">
                 <br>
                 <h2 class="empty-state-title">No homework found</h2>
                 <p class="empty-state-text">for your account</p>
             </div>
         <?php else: ?>
-            <!-- Tabelle mit Hausübungen -->
+            
             <div class="table-responsive">
                 <table class="homework-table">
                     <thead>
@@ -91,7 +91,7 @@ if ($selectedSubjectId > 0) {
                     <tbody>
                     <?php foreach ($homeworks as $homework): ?>
                         <?php
-                        // Status-Klasse für die Zeile berechnen
+                        
                         $rowClass = '';
                         if ((int)$homework->is_done === 1) {
                             $rowClass = 'row-done';
@@ -99,17 +99,17 @@ if ($selectedSubjectId > 0) {
                             $dueTimestamp = strtotime((string)$homework->due_at);
                             if ($dueTimestamp !== false) {
                                 $secondsLeft = $dueTimestamp - $nowTimestamp;
-                                if ($secondsLeft < 86400) { // < 24h
+                                if ($secondsLeft < 86400) { 
                                     $rowClass = 'row-due-critical';
-                                } elseif ($secondsLeft < 604800) { // < 7 days
+                                } elseif ($secondsLeft < 604800) { 
                                     $rowClass = 'row-due-warning';
-                                } elseif ($secondsLeft < 1209600) { // < 14 days
+                                } elseif ($secondsLeft < 1209600) { 
                                     $rowClass = 'row-due-notice';
                                 }
                             }
                         }
 
-                        // Due date formatieren
+                        
                         $dueDate = date('d.m.Y H:i', strtotime((string)$homework->due_at));
                         ?>
                         <tr class="<?= $rowClass ?>">

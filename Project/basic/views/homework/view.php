@@ -1,7 +1,7 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var app\models\Homework $model */
+
+
 
 use yii\helpers\Html;
 

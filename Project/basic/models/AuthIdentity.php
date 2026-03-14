@@ -5,9 +5,9 @@ namespace app\models;
 use Yii;
 use yii\web\IdentityInterface;
 
-/**
- * Unified identity for User/Admin/Teacher accounts from the User table.
- */
+
+
+
 class AuthIdentity implements IdentityInterface
 {
     public const TYPE_USER = 'user';
@@ -18,12 +18,12 @@ class AuthIdentity implements IdentityInterface
     private $role;
     private $passwordHash;
 
-    /**
-     * @param int $accountId
-     * @param string $username
-     * @param string $role
-     * @param string $passwordHash
-     */
+    
+
+
+
+
+
     private function __construct($accountId, $username, $role, $passwordHash)
     {
         $this->accountId = $accountId;
@@ -32,24 +32,24 @@ class AuthIdentity implements IdentityInterface
         $this->passwordHash = $passwordHash;
     }
 
-    /**
-     * Finds identity from username for basic login.
-     *
-     * @param string $username
-     * @return self|null
-     */
+    
+
+
+
+
+
     public static function findByUsername($username)
     {
         return self::findByCredentials($username);
     }
 
-    /**
-     * Finds identity from username + optional selected login mode.
-     *
-     * @param string $username
-     * @param string|null $loginAs
-     * @return self|null
-     */
+    
+
+
+
+
+
+
     public static function findByCredentials($username, $loginAs = null)
     {
         $user = User::findOne(['U_username' => $username]);
@@ -72,9 +72,9 @@ class AuthIdentity implements IdentityInterface
         return self::fromUser($user);
     }
 
-    /**
-     * @inheritDoc
-     */
+    
+
+
     public static function findIdentity($id)
     {
         $user = User::findOne(['U_ID' => (int)$id]);
@@ -89,25 +89,25 @@ class AuthIdentity implements IdentityInterface
         return self::fromUser($user);
     }
 
-    /**
-     * @inheritDoc
-     */
+    
+
+
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
+    
+
+
     public function getId()
     {
         return (string)$this->accountId;
     }
 
-    /**
-     * @inheritDoc
-     */
+    
+
+
     public function getAuthKey()
     {
         return hash_hmac(
@@ -117,18 +117,18 @@ class AuthIdentity implements IdentityInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+    
+
+
     public function validateAuthKey($authKey)
     {
         return hash_equals($this->getAuthKey(), (string)$authKey);
     }
 
-    /**
-     * @param string $password
-     * @return bool
-     */
+    
+
+
+
     public function validatePassword($password)
     {
         $hashInfo = password_get_info((string)$this->passwordHash);
@@ -139,26 +139,26 @@ class AuthIdentity implements IdentityInterface
         return hash_equals((string)$this->passwordHash, (string)$password);
     }
 
-    /**
-     * @return string
-     */
+    
+
+
     public function getUsername()
     {
         return $this->username;
     }
 
-    /**
-     * @return string
-     */
+    
+
+
     public function getRole()
     {
         return $this->role;
     }
 
-    /**
-     * @param User $user
-     * @return self
-     */
+    
+
+
+
     private static function fromUser(User $user)
     {
         return new self(

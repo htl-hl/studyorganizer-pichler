@@ -28,9 +28,9 @@ class UserTest extends \Codeception\Test\Unit
         verify(User::findByUsername('not-admin'))->empty();
     }
 
-    /**
-     * @depends testFindUserByUsername
-     */
+    
+
+
     public function testValidateUser()
     {
         $user = User::findByUsername('admin');

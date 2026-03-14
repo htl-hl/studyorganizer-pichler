@@ -1,4 +1,4 @@
-/* Header Top mit Create Button */
+
 .header-top {
     display: flex;
     justify-content: space-between;
@@ -8,7 +8,7 @@
     gap: 1rem;
 }
 
-/* Form Card für Create-Seite */
+
 .form-card {
     background: white;
     border-radius: 12px;
@@ -17,7 +17,7 @@
     border: 1px solid #eef2f6;
 }
 
-/* Form Layout */
+
 .styled-form .form-row {
     display: flex;
     gap: 1rem;
@@ -36,7 +36,7 @@
     gap: 1rem;
 }
 
-/* GridView Styling */
+
 .homework-grid {
     background: white;
     border-radius: 12px;
@@ -66,7 +66,7 @@
     border-bottom: none;
 }
 
-/* Action Buttons in Grid */
+
 .btn-action {
     display: inline-block;
     padding: 0.5rem;
@@ -80,14 +80,14 @@
     transform: scale(1.1);
 }
 
-/* Pagination */
+
 .pagination-wrapper {
     padding: 1rem;
     display: flex;
     justify-content: center;
 }
 
-/* Form Controls */
+
 .form-control {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -106,7 +106,7 @@ textarea.form-control {
     resize: vertical;
     min-height: 120px;
 }
-/* Tabellen-Styling */
+
 .homework-table {
     width: 100%;
     border-collapse: collapse;
@@ -141,7 +141,7 @@ textarea.form-control {
     border-bottom: none;
 }
 
-/* Status-basierte Zeilenfarben */
+
 .row-done {
     background-color: #f0fff4;
     opacity: 0.8;
@@ -162,7 +162,7 @@ textarea.form-control {
     border-left: 4px solid #4299e1;
 }
 
-/* Status Badges */
+
 .status-badge {
     display: inline-block;
     padding: 0.35rem 0.75rem;
@@ -181,7 +181,7 @@ textarea.form-control {
     color: #2d3748;
 }
 
-/* Subject Badge */
+
 .subject-badge {
     background: #e6f7ff;
     color: #0050b3;
@@ -190,7 +190,7 @@ textarea.form-control {
     font-size: 0.9rem;
 }
 
-/* Due Date */
+
 .due-date {
     font-weight: 500;
 }
@@ -207,7 +207,7 @@ textarea.form-control {
     color: #2b6cb0;
 }
 
-/* Action Buttons */
+
 .btn-sm {
     padding: 0.4rem 0.8rem;
     font-size: 0.875rem;
@@ -224,7 +224,7 @@ textarea.form-control {
     display: inline-block;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .homework-table {
         border: 0;

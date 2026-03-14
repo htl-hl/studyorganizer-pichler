@@ -2,42 +2,36 @@
 
 namespace app\controllers;
 
-use app\models\Forums;
-use app\models\Produkte;
+use app\models\ContactForm;
+use app\models\LoginForm;
 use app\models\RegisterForm;
 use Yii;
-use yii\base\DynamicModel;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\SignupForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'contact'], // 'contact' hinzugefügt
+                'except' => ['login', 'register', 'error', 'captcha', 'about'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'actions' => ['contact'],
-                        'allow' => true,
-                        'roles' => ['@'], // Nur eingeloggte Benutzer dürfen contact aufrufen
-                    ],
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    if ($action->id !== 'login') {
+                        return $this->redirect(['site/login']);
+                    }
+
+                    return null;
+                },
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -48,9 +42,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -64,69 +55,44 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
-        $searchModel = new DynamicModel();
-        $searchModel->addRule(['text'], 'string', ['max' => 128]);
-        $forumsQuery = Forums::find();
-
-        $searchModel->load(Yii::$app->request->post());
-        if ($searchModel->text != null) {
-            $forumsQuery->where(['LIKE','F_title', $searchModel->text]);
-            $forumsQuery->orWhere(['LIKE', 'F_description', $searchModel->text]);
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
         }
 
-
-        $forums = $forumsQuery->all();
-        return $this->render('index', [
-            'forums' => $forums,
-        ]);
+        return $this->redirect(['homework/index']);
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['homework/index']);
         }
 
         $model->password = '';
+
         return $this->render('login', [
             'model' => $model,
         ]);
     }
 
-    /**
-     * Register action.
-     *
-     * @return Response|string
-     */
     public function actionRegister()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['homework/index']);
         }
 
         $model = new RegisterForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $user = $model->signup();
-            if ($user !== null && Yii::$app->user->login($user)) {
-                return $this->goHome();
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            Yii::$app->session->setFlash('success', 'Account created. You can now log in.');
+
+            return $this->redirect(['site/login']);
         }
 
         return $this->render('register', [
@@ -134,55 +100,28 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(['site/login']);
     }
 
-    /**
-     * Displays contact page.
-     * Nur für eingeloggte Benutzer zugänglich.
-     *
-     * @return Response|string
-     */
     public function actionContact()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
         $model = new ContactForm();
-<<<<<<< HEAD
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // Benutzerdaten aus der Session holen
-            $user = Yii::$app->user->identity;
-
-            // E-Mail an Admin senden
-            $sent = Yii::$app->mailer->compose()
-                ->setTo(Yii::$app->params['adminEmail'])
-                ->setFrom([$user->email => $user->U_username])
-                ->setSubject($model->subject)
-                ->setTextBody($model->body)
-                ->send();
-
-            if ($sent) {
-                Yii::$app->session->setFlash('success', 'Vielen Dank für Ihre Nachricht. Wir werden uns bald bei Ihnen melden.');
-            } else {
-                Yii::$app->session->setFlash('error', 'Es gab ein Problem beim Senden Ihrer Nachricht.');
-=======
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->contact(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Danke, Ihre Nachricht wurde gesendet.');
-            } else {
-                Yii::$app->session->setFlash('error', 'Nachricht konnte nicht gesendet werden. Bitte prüfen Sie Ihre Eingaben.');
->>>>>>> 1b719a3 (fixed)
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('success', 'Your message has been sent.');
 
             return $this->refresh();
+        }
+
+        if ($model->hasErrors()) {
+            Yii::$app->session->setFlash('error', 'Message could not be sent. Please check the form.');
         }
 
         return $this->render('contact', [
@@ -190,11 +129,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
     public function actionAbout()
     {
         return $this->render('about');

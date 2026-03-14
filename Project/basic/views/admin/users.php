@@ -1,12 +1,12 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var app\models\User[] $users */
-/** @var int $currentUserId */
-/** @var app\models\Subject[] $subjects */
-/** @var app\models\User[] $teachers */
-/** @var app\models\User_Subject[] $teacherAssignments */
-/** @var array<int, int> $teacherSubjectCounts */
+
+
+
+
+
+
+
 
 use app\models\User;
 use yii\helpers\ArrayHelper;

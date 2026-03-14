@@ -12,7 +12,7 @@ class LoginFormCest
         $I->see('Login', 'h1');
     }
 
-    // demonstrates `amLoggedInAs` method
+    
     public function internalLoginById(\FunctionalTester $I)
     {
         $I->amLoggedInAs(100);
@@ -20,7 +20,7 @@ class LoginFormCest
         $I->see('Logout (admin)');
     }
 
-    // demonstrates `amLoggedInAs` method
+    
     public function internalLoginByInstance(\FunctionalTester $I)
     {
         $I->amLoggedInAs(\app\models\User::findByUsername('admin'));

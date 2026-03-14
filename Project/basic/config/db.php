@@ -1,8 +1,8 @@
 <?php
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=db;dbname=StudyOrganiser',  // In DDEV: host=db, dbname=db
+    'dsn' => 'mysql:host=db;dbname=StudyOrganiser',  
     'username' => 'root',
-    'password' => 'root',  // HIER das Passwort eintragen!
+    'password' => 'root',  
     'charset' => 'utf8',
 ];

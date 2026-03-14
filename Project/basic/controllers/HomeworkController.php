@@ -16,9 +16,9 @@ use yii\web\Response;
 
 class HomeworkController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    
+
+
     public function behaviors()
     {
         return [
@@ -43,9 +43,9 @@ class HomeworkController extends Controller
         ];
     }
 
-    /**
-     * @return string
-     */
+    
+
+
     public function actionIndex()
     {
         $currentUserId = $this->currentUserId();
@@ -67,9 +67,9 @@ class HomeworkController extends Controller
         ]);
     }
 
-    /**
-     * @return string|Response
-     */
+    
+
+
     public function actionCreate()
     {
         $model = new Homework();
@@ -99,11 +99,11 @@ class HomeworkController extends Controller
         ]);
     }
 
-    /**
-     * @param int $id
-     * @return string|Response
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionUpdate($id)
     {
         $model = $this->findOwnedHomework((int)$id);
@@ -130,11 +130,11 @@ class HomeworkController extends Controller
         ]);
     }
 
-    /**
-     * @param int $id
-     * @return string
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionView($id)
     {
         return $this->render('view', [
@@ -142,11 +142,11 @@ class HomeworkController extends Controller
         ]);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionMarkDone($id)
     {
         $model = $this->findOwnedHomework((int)$id);
@@ -165,11 +165,11 @@ class HomeworkController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * @param int $id
-     * @return Homework
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     private function findOwnedHomework($id)
     {
         $model = Homework::find()
@@ -187,17 +187,17 @@ class HomeworkController extends Controller
         return $model;
     }
 
-    /**
-     * @return int
-     */
+    
+
+
     private function currentUserId()
     {
         return (int)Yii::$app->user->id;
     }
 
-    /**
-     * @return array
-     */
+    
+
+
     private function subjectOptions()
     {
         return ArrayHelper::map(
@@ -207,9 +207,9 @@ class HomeworkController extends Controller
         );
     }
 
-    /**
-     * @return array<int, array<int, string>>
-     */
+    
+
+
     private function teacherOptionsBySubject()
     {
         $assignments = User_Subject::find()
@@ -238,10 +238,10 @@ class HomeworkController extends Controller
         return $teachersBySubject;
     }
 
-    /**
-     * @param Homework $model
-     * @return void
-     */
+    
+
+
+
     private function normalizeDueAt(Homework $model)
     {
         $value = trim((string)$model->due_at);
@@ -264,10 +264,10 @@ class HomeworkController extends Controller
         $model->due_at = date('Y-m-d H:i:s', $timestamp);
     }
 
-    /**
-     * @param Homework $model
-     * @return void
-     */
+    
+
+
+
     private function validateTeacherSubject(Homework $model)
     {
         $hasAssignment = User_Subject::find()

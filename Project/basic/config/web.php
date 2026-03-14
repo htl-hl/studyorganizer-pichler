@@ -14,7 +14,7 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            
             'cookieValidationKey' => 'dein-cookie-validation-key-hier',
         ],
         'cache' => [
@@ -37,7 +37,7 @@ $config = [
         'mailer' => [
             'class' => 'yii\symfonymailer\Mailer',
             'viewPath' => '@app/mail',
-            'useFileTransport' => true, // E-Mails werden in runtime/mail gespeichert
+            'useFileTransport' => true, 
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -53,16 +53,16 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // Hier definieren wir die Login-Seite als Startseite
-                '' => 'site/login', // Leere Route = Login-Seite
-                'dashboard' => 'site/index', // Dashboard als interne Startseite
+                
+                '' => 'site/login', 
+                'dashboard' => 'site/index', 
                 'login' => 'site/login',
                 'logout' => 'site/logout',
                 'signup' => 'site/register',
                 'about' => 'site/about',
                 'contact' => 'site/contact',
 
-                // RESTful Routing für Controller
+                
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -73,19 +73,19 @@ $config = [
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
+    
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        
+        
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        
+        
     ];
 }
 

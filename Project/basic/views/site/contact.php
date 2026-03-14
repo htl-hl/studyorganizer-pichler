@@ -2,8 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\ContactForm */
+
+
 
 $this->title = 'Kontakt';
 $this->params['breadcrumbs'][] = $this->title;

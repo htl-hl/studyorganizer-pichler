@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 
-#== Import script args ==
-
 timezone=$(echo "$1")
 readonly IP=$2
-
-#== Bash helpers ==
 
 function info {
   echo " "
   echo "--> $1"
   echo " "
 }
-
-#== Provision script ==
 
 info "Provision-script user: `whoami`"
 

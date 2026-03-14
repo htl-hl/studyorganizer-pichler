@@ -17,9 +17,9 @@ use yii\web\Response;
 
 class AdminController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    
+
+
     public function behaviors()
     {
         return [
@@ -53,9 +53,9 @@ class AdminController extends Controller
         ];
     }
 
-    /**
-     * @return string
-     */
+    
+
+
     public function actionUsers()
     {
         $users = User::find()->orderBy(['U_ID' => SORT_ASC])->all();
@@ -93,11 +93,11 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionUpdateUser($id)
     {
         $user = User::findOne(['U_ID' => (int)$id]);
@@ -157,9 +157,9 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @return Response
-     */
+    
+
+
     public function actionCreateTeacher()
     {
         $username = trim((string)Yii::$app->request->post('teacher_username', ''));
@@ -204,9 +204,9 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @return Response
-     */
+    
+
+
     public function actionCreateSubject()
     {
         $model = new Subject();
@@ -221,11 +221,11 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionUpdateSubject($id)
     {
         $subject = Subject::findOne(['S_ID' => (int)$id]);
@@ -243,11 +243,11 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws NotFoundHttpException
-     */
+    
+
+
+
+
     public function actionDeleteSubject($id)
     {
         $subject = Subject::findOne(['S_ID' => (int)$id]);
@@ -285,9 +285,9 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @return Response
-     */
+    
+
+
     public function actionAssignTeacherSubject()
     {
         $teacherId = (int)Yii::$app->request->post('teacher_id', 0);
@@ -323,11 +323,11 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @param int $teacherId
-     * @param int $subjectId
-     * @return Response
-     */
+    
+
+
+
+
     public function actionUnlinkTeacherSubject($teacherId, $subjectId)
     {
         $teacherId = (int)$teacherId;
@@ -368,9 +368,9 @@ class AdminController extends Controller
         return $this->redirect(['users']);
     }
 
-    /**
-     * @return bool
-     */
+    
+
+
     private function isCurrentUserAdmin()
     {
         $identity = Yii::$app->user->identity;
@@ -381,12 +381,12 @@ class AdminController extends Controller
         return strtolower((string)$identity->getRole()) === User::ROLE_ADMIN;
     }
 
-    /**
-     * @param User $user
-     * @param string $newRole
-     * @param int $newIsActive
-     * @return bool
-     */
+    
+
+
+
+
+
     private function wouldRemoveLastActiveAdmin(User $user, $newRole, $newIsActive)
     {
         if (!$user->isAdmin() || !$user->isActive()) {
@@ -408,11 +408,11 @@ class AdminController extends Controller
         return $otherActiveAdmins === 0;
     }
 
-    /**
-     * @param array $errors
-     * @param string $fallback
-     * @return string
-     */
+    
+
+
+
+
     private function firstError(array $errors, $fallback)
     {
         $message = reset($errors);

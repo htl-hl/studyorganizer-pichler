@@ -1,9 +1,9 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var app\models\Homework $model */
-/** @var array<int, string> $subjectOptions */
-/** @var array<int, array<int, string>> $teacherOptionsBySubject */
+
+
+
+
 
 $this->title = 'Create Homework';
 $this->params['breadcrumbs'][] = ['label' => 'My Homework', 'url' => ['index']];
