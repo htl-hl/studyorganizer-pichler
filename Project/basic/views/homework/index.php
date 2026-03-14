@@ -11,6 +11,10 @@ $this->title = 'My Homework';
 $this->params['breadcrumbs'][] = $this->title;
 
 $nowTimestamp = time();
+$createUrl = ['create'];
+if ($selectedSubjectId > 0) {
+    $createUrl['subject_id'] = $selectedSubjectId;
+}
 ?>
 
 <div class="homework-wrapper">
@@ -21,13 +25,6 @@ $nowTimestamp = time();
                 <span class="title-icon">📚</span>
                 <?= Html::encode($this->title) ?>
             </h1>
-            <br>
-
-            <?= Html::a(
-                    '<span class="btn-icon">➕</span> Create Homework',
-                    ['create'],
-                    ['class' => 'btn btn-primary']
-            ) ?>
         </div>
         <br>
         <!-- Filter Card -->
@@ -57,6 +54,11 @@ $nowTimestamp = time();
             <div class="filter-actions">
                 <?= Html::submitButton('Apply', ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Reset', ['index'], ['class' => 'btn btn-secondary']) ?>
+                <?= Html::a(
+                    $selectedSubjectId > 0 ? 'Create homework for subject' : 'Create homework',
+                    $createUrl,
+                    ['class' => 'btn btn-success']
+                ) ?>
             </div>
 
             <?= Html::endForm() ?>

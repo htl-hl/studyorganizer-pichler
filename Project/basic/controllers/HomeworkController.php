@@ -76,6 +76,11 @@ class HomeworkController extends Controller
         $model->U_ID = $this->currentUserId();
         $model->is_done = 0;
 
+        $requestedSubjectId = (int)Yii::$app->request->get('subject_id', 0);
+        if ($requestedSubjectId > 0 && Subject::find()->where(['S_ID' => $requestedSubjectId])->exists()) {
+            $model->S_ID = $requestedSubjectId;
+        }
+
         if ($model->load(Yii::$app->request->post())) {
             $model->U_ID = $this->currentUserId();
             $this->normalizeDueAt($model);
