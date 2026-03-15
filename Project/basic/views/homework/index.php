@@ -14,6 +14,10 @@ $nowTimestamp = time();
 ?>
 
 <div class="homework-wrapper">
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- Header mit Titel und Create Button -->
     <div class="homework-header">
         <div class="header-top">
@@ -21,7 +25,6 @@ $nowTimestamp = time();
                 <span class="title-icon">📚</span>
                 <?= Html::encode($this->title) ?>
             </h1>
-            <br>
 
             <?= Html::a(
                     '<span class="btn-icon">➕</span> Create Homework',
@@ -29,8 +32,9 @@ $nowTimestamp = time();
                     ['class' => 'btn btn-primary']
             ) ?>
         </div>
-        <br>
+
         <!-- Filter Card -->
+        <br>
         <div class="filter-card">
             <?= Html::beginForm(['index'], 'get', ['class' => 'filter-form']) ?>
             <div class="filter-group">
@@ -40,6 +44,7 @@ $nowTimestamp = time();
                 </label>
                 <br>
                 <br>
+
                 <div class="select-wrapper">
                     <?= Html::dropDownList(
                             'subject_id',
@@ -54,6 +59,7 @@ $nowTimestamp = time();
                 </div>
             </div>
             <br>
+
             <div class="filter-actions">
                 <?= Html::submitButton('Apply', ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Reset', ['index'], ['class' => 'btn btn-secondary']) ?>
@@ -66,11 +72,13 @@ $nowTimestamp = time();
     <!-- Homework Content -->
     <div class="homework-content">
         <?php if (empty($homeworks)): ?>
-            <!-- Empty State mit schönem Design -->
+            <!-- Empty State mit schönem Design und Create Button -->
             <div class="empty-state-card">
                 <br>
                 <h2 class="empty-state-title">No homework found</h2>
                 <p class="empty-state-text">for your account</p>
+
+
             </div>
         <?php else: ?>
             <!-- Tabelle mit Hausübungen -->
@@ -163,6 +171,4 @@ $nowTimestamp = time();
             </div>
         <?php endif; ?>
     </div>
-
-
 </div>

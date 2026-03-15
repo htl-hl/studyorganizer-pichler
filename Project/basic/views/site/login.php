@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg border-0 rounded-lg">
                 <div class="card-header bg-primary text-white text-center py-4">
+                    <br>
+                    <br>
                     <h2 class="mb-0">Study Organizer</h2>
                     <p class="mb-0 mt-2">Log in with your username and password</p>
                 </div>

@@ -10,12 +10,43 @@ use yii\bootstrap5\Html;
 $this->title = 'Register';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    /* ALLES GRÜNE WIRD BLAU */
+    .bg-success,
+    .btn-success,
+    .text-success {
+        background-color: #4299e1 !important;
+        background: #4299e1 !important;
+        color: white !important;
+        border-color: #2b6cb0 !important;
+    }
+
+    .btn-success:hover {
+        background-color: #2b6cb0 !important;
+        border-color: #1a365d !important;
+    }
+
+    .text-success {
+        color: #4299e1 !important;
+        background: transparent !important;
+    }
+
+    .text-success:hover {
+        color: #2b6cb0 !important;
+    }
+
+    .card-header.bg-success h2,
+    .card-header.bg-success p {
+        color: white !important;
+    }
+</style>
 
 <div class="site-register">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg border-0 rounded-lg">
                 <div class="card-header bg-success text-white text-center py-4">
+                    <br>
                     <h2 class="mb-0">📝 Create Account</h2>
                     <p class="mb-0 mt-2">Join Study Organizer today</p>
                 </div>
