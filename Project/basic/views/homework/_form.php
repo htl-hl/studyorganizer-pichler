@@ -34,7 +34,7 @@ $currentTeacherOptions = $teacherOptionsBySubject[(int)$model->S_ID] ?? [];
                                 'id' => 'homework-subject',
                                 'class' => 'form-control',
                         ]
-                ) ?>
+                )->label('Subject') ?>
             </div>
 
             <div class="form-col">
@@ -45,7 +45,9 @@ $currentTeacherOptions = $teacherOptionsBySubject[(int)$model->S_ID] ?? [];
                                 'id' => 'homework-teacher',
                                 'class' => 'form-control',
                         ]
-                ) ?>
+                )->label('Teacher') ?>  
+            </div>
+        </div>
             </div>
         </div>
 
