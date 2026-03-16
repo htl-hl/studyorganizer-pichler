@@ -10,37 +10,108 @@ use yii\bootstrap5\Html;
 $this->title = 'Register';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    /* ALLES GRÜNE WIRD BLAU */
+    .bg-success,
+    .btn-success,
+    .text-success {
+        background-color: #4299e1 !important;
+        background: #4299e1 !important;
+        color: white !important;
+        border-color: #2b6cb0 !important;
+    }
+
+    .btn-success:hover {
+        background-color: #2b6cb0 !important;
+        border-color: #1a365d !important;
+    }
+
+    .text-success {
+        color: #4299e1 !important;
+        background: transparent !important;
+    }
+
+    .text-success:hover {
+        color: #2b6cb0 !important;
+    }
+
+    .card-header.bg-success h2,
+    .card-header.bg-success p {
+        color: white !important;
+    }
+</style>
+
 <div class="site-register">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Create a new user account.</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin([
-                'id' => 'register-form',
-                'fieldConfig' => [
-                    'template' => "{label}\n{input}\n{error}",
-                    'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
-                    'inputOptions' => ['class' => 'col-lg-3 form-control'],
-                    'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-                ],
-            ]); ?>
-
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-            <?= $form->field($model, 'password')->passwordInput() ?>
-            <?= $form->field($model, 'passwordRepeat')->passwordInput() ?>
-
-            <div class="form-group">
-                <div>
-                    <?= Html::submitButton('Register', ['class' => 'btn btn-success', 'name' => 'register-button']) ?>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <br>
+                    <h2 class="mb-0">📝 Create Account</h2>
+                    <p class="mb-0 mt-2">Join Study Organizer today</p>
                 </div>
-            </div>
 
-            <?php ActiveForm::end(); ?>
+                <div class="card-body p-4">
+                    <?php $form = ActiveForm::begin([
+                            'id' => 'register-form',
+                            'fieldConfig' => [
+                                    'template' => "{label}\n{input}\n{error}",
+                                    'labelOptions' => ['class' => 'form-label fw-bold'],
+                                    'inputOptions' => ['class' => 'form-control form-control-lg'],
+                                    'errorOptions' => ['class' => 'invalid-feedback'],
+                            ],
+                    ]); ?>
 
-            <div style="color:#999;">
-                Already registered? <?= Html::a('Log in here', ['site/login']) ?>.
+                    <div class="mb-4">
+                        <?= $form->field($model, 'username')
+                                ->textInput([
+                                        'autofocus' => true,
+                                        'placeholder' => 'Choose a username'
+                                ])
+                                ->label('<i class="fas fa-user me-2"></i>Username') ?>
+                    </div>
+
+                    <div class="mb-4">
+                        <?= $form->field($model, 'password')
+                                ->passwordInput([
+                                        'placeholder' => 'Create a password'
+                                ])
+                                ->label('<i class="fas fa-lock me-2"></i>Password') ?>
+                    </div>
+
+                    <div class="mb-4">
+                        <?= $form->field($model, 'passwordRepeat')
+                                ->passwordInput([
+                                        'placeholder' => 'Confirm your password'
+                                ])
+                                ->label('<i class="fas fa-lock me-2"></i>Confirm Password') ?>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <?= Html::submitButton(
+                                '<i class="fas fa-user-plus me-2"></i>Register',
+                                [
+                                        'class' => 'btn btn-success btn-lg',
+                                        'name' => 'register-button'
+                                ]
+                        ) ?>
+                    </div>
+
+                    <?php ActiveForm::end(); ?>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-0">
+                            Already registered?
+                            <?= Html::a(
+                                    'Log in here',
+                                    ['site/login'],
+                                    ['class' => 'text-success fw-bold text-decoration-none']
+                            ) ?>.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

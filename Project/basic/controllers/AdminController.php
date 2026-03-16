@@ -190,7 +190,7 @@ class AdminController extends Controller
         $isActive = in_array($isActiveRaw, ['0', '1'], true) ? (int)$isActiveRaw : 1;
         $teacher = new User();
         $teacher->U_username = $username;
-        $teacher->U_password = $password;
+        $teacher->setPassword($password);
         $teacher->U_role = User::ROLE_TEACHER;
         $teacher->U_is_active = $isActive;
         $teacher->U_creation_date = date('Y-m-d H:i:s');

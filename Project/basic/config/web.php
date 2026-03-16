@@ -14,8 +14,7 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'dein-cookie-validation-key-hier',
+            'cookieValidationKey' => 'ERT-5RGKfig8kB3yVHwZ5FrdQaSZf_zV',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -23,16 +22,21 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['site/login'], // Login-URL definieren
+            'loginUrl' => ['site/login'],
+        ],
+        'session' => [
+            'class' => 'yii\web\Session',
+            'cookieParams' => ['httponly' => true, 'lifetime' => 3600 * 24 * 30],
+            'timeout' => 3600 * 24 * 30,
+            'useCookies' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => 'yii\symfonymailer\Mailer',
             'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
+            'useFileTransport' => true, // E-Mails werden in runtime/mail gespeichert
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -53,7 +57,7 @@ $config = [
                 'dashboard' => 'site/index', // Dashboard als interne Startseite
                 'login' => 'site/login',
                 'logout' => 'site/logout',
-                'signup' => 'site/signup',
+                'signup' => 'site/register',
                 'about' => 'site/about',
                 'contact' => 'site/contact',
 

@@ -1,114 +1,333 @@
-main > .container {
-    padding: 70px 15px 20px;
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: #4299e1;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
 }
 
-.footer {
-    background-color: #f5f5f5;
-    font-size: .9em;
-    height: 60px;
+
+.form-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1);
+    border: 1px solid #bee3f8;
 }
 
-.footer > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+
+.styled-form .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
 
-.not-set {
-    color: #c55;
-    font-style: italic;
+.styled-form .form-col {
+    flex: 1;
+    min-width: 250px;
+    background: #ebf8ff;
+    padding: 1rem;
+    border-radius: 8px;
 }
 
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    content: '';
-    left: 3px;
+.styled-form .form-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+
+.homework-grid {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1);
+}
+
+.homework-grid table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.homework-grid th {
+    background: #4299e1;
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    text-align: left;
+}
+
+.homework-grid td {
+    padding: 1rem;
+    border-bottom: 1px solid #bee3f8;
+}
+
+.homework-grid tr:last-child td {
+    border-bottom: none;
+}
+
+
+.btn-action {
     display: inline-block;
-    width: 0;
-    height: 0;
-    border: solid 5px transparent;
-    margin: 4px 4px 2px 4px;
-    background: transparent;
+    padding: 0.5rem;
+    margin: 0 0.25rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+    color: #4299e1;
 }
 
-a.asc:after {
-    border-bottom: solid 7px #212529;
-    border-top-width: 0;
+.btn-action:hover {
+    transform: scale(1.1);
+    color: #2b6cb0;
 }
 
-a.desc:after {
-    border-top: solid 7px #212529;
-    border-bottom-width: 0;
+
+.pagination-wrapper {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
-.grid-view th {
-    white-space: nowrap;
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #bee3f8;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
 }
 
-.hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
+.form-control:focus {
+    outline: none;
+    border-color: #4299e1;
 }
 
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
 }
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding-top: 7px;
-    color: rgba(255, 255, 255, 0.5);
+.homework-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1);
 }
 
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 0;
+.homework-table thead {
+    background: #4299e1;
+}
+
+.homework-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: white;
+    border-bottom: 2px solid #2b6cb0;
+}
+
+.homework-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #bee3f8;
+}
+
+.homework-table tbody tr:hover {
+    background-color: #ebf8ff;
+}
+
+.homework-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.row-done {
+    background-color: #f0fff4;
+    opacity: 0.8;
+}
+
+.row-due-critical {
+    background-color: #fff5f5;
+    border-left: 4px solid #f56565;
+}
+
+.row-due-warning {
+    background-color: #fffaf0;
+    border-left: 4px solid #ed8936;
+}
+
+.row-due-notice {
+    background-color: #ebf8ff;
+    border-left: 4px solid #4299e1;
+}
+
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-done {
+    background: #c6f6d5;
+    color: blue;
+}
+
+.status-open {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
+
+.subject-badge {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+
+.due-date {
+    font-weight: 500;
+}
+
+.due-date.row-due-critical {
+    color: #c53030;
+}
+
+.due-date.row-due-warning {
+    color: #c05621;
+}
+
+.due-date.row-due-notice {
+    color: #2b6cb0;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    border-radius: 6px;
+    background: #4299e1;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-sm:hover {
+    background: #2b6cb0;
+}
+
+.homework-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.d-inline {
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .homework-table {
+        border: 0;
+    }
+
+    .homework-table thead {
+        display: none;
+    }
+
+    .homework-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #bee3f8;
+        border-radius: 8px;
+        background: white;
+    }
+
+    .homework-table td {
+        display: block;
+        text-align: right;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #bee3f8;
+    }
+
+    .homework-table td:last-child {
+        border-bottom: none;
+    }
+
+    .homework-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        color: #2b6cb0;
+    }
+
+    .homework-actions {
+        justify-content: flex-end;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.75);
-}
 
-.nav > li > form > button.logout:focus {
-    outline: none;
-}
-
-.form-group {
+.tab-container {
+    background: #ebf8ff;
+    padding: 1rem;
+    border-radius: 8px;
     margin-bottom: 1rem;
 }
 
-.table-homework tr.homework-due-blue > td {
-    background-color: #e7f1ff;
+.tab {
+    background: #4299e1;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.table-homework tr.homework-due-yellow > td {
-    background-color: #fff7da;
+.tab:hover {
+    background: #2b6cb0;
 }
 
-.table-homework tr.homework-due-red > td {
-    background-color: #ffe1e1;
+.tab.active {
+    background: #1a365d;
 }
 
-.table-homework tr.homework-row-done > td {
-    background-color: #f4f6f8;
-    color: #6c757d;
+.page-title {
+    color: #2b6cb0;
+    border-bottom: 2px solid #4299e1;
+    padding-bottom: 0.5rem;
 }
 
-.homework-actions .btn {
-    margin-right: 0.35rem;
-    margin-bottom: 0.2rem;
+.site-register .card-header.bg-success {
+    background: blue;
 }
 
-.homework-description {
-    white-space: pre-wrap;
+.site-register .btn-success {
+    background: blue ;
+    border-color: blue;
 }
+
+.site-register .btn-success:hover {
+    background: blue;
+}
+
+.site-register .text-success {
+    color: blue;
+}
+
+.site-register .text-success:hover {
+    color: blue;
+}
+
